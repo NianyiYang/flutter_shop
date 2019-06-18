@@ -72,28 +72,3 @@ class _HomePageState extends State<HomePage> {
     }
   }
 }
-
-//class HomePage extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    mockHttp();
-//
-//    return Scaffold(
-//      body: Center(
-//        child: Text('首页'),
-//      ),
-//    );
-//  }
-//
-//  void mockHttp() async {
-//    try {
-//      Response response = await Dio().get(
-//          "https://www.easy-mock.com/mock/5c60131a4bed3a6342711498/baixing/dabaojian",
-//          queryParameters: {'name': 'JJ'});
-//
-//      return print(response);
-//    } catch (e) {
-//      return print(e);
-//    }
-//  }
-//}
