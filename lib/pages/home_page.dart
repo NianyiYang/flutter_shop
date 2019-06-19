@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_shop/service/service_method.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -30,11 +31,15 @@ class _HomePageState extends State<HomePage> {
 
             String adResource = data['data']['adResource'].toString();
 
+            String phoneResource = data['data']['contact']['image'].toString();
+            String phoneNumber = data['data']['contact']['number'].toString();
+
             return Column(
               children: <Widget>[
                 SwiperDiy(swiperList: swiperDataList),
                 TopNavigator(navList: navDataList),
-                AdBanner(adResource: adResource)
+                AdBanner(adResource: adResource),
+                Phone(phoneResource: phoneResource, phoneNumber: phoneNumber)
               ],
             );
           } else {
@@ -131,10 +136,38 @@ class AdBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('广告组件');
     return Container(
       width: ScreenUtil().setWidth(750),
-      height: ScreenUtil().setHeight(150),
+      height: ScreenUtil().setHeight(120),
       child: Image.network(adResource, fit: BoxFit.fill),
     );
+  }
+}
+
+/// 电话组件
+class Phone extends StatelessWidget {
+  final String phoneResource;
+  final String phoneNumber;
+
+  Phone({Key key, this.phoneResource, this.phoneNumber}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: InkWell(
+        onTap: _launchUrl,
+        child: Image.network(phoneResource, fit: BoxFit.fill),
+      ),
+    );
+  }
+
+  void _launchUrl() async {
+    String url = 'tel:' + phoneNumber;
+    if(await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
