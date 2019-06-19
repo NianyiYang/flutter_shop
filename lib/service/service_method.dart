@@ -5,6 +5,9 @@ Future getHomePageContent() async {
   try {
     Response response = await Dio().get(
       servicePath['homePageContent'],
+      options: Options(
+        responseType: ResponseType.json,
+      ),
     );
 
     if (response.statusCode == 200) {
