@@ -10,7 +10,9 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+// 混入保持页面状态 step 3 AutomaticKeepAliveClientMixin
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   String displayText = '加载中...';
 
   @override
@@ -57,6 +59,10 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  // 混入保持页面状态 step 4
+  @override
+  bool get wantKeepAlive => true;
 }
 
 /// 轮播图

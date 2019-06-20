@@ -11,7 +11,9 @@ class IndexPage extends StatefulWidget {
 }
 
 class _IndexPageState extends State<IndexPage> {
-  final List tabBodies = [
+  PageController _pageController;
+
+  final List<Widget> tabBodies = [
     HomePage(),
     CategoryPage(),
     CartPage(),
@@ -41,10 +43,20 @@ class _IndexPageState extends State<IndexPage> {
   int currentIndex = 0;
   var currentPage;
 
-
   @override
   void initState() {
     currentPage = tabBodies[currentIndex];
+
+    // 混入保持页面状态 step 1
+    _pageController = PageController()
+      ..addListener(() {
+        if (currentPage != _pageController.page.round()) {
+          setState(() {
+            currentPage = _pageController.page.round();
+          });
+        }
+      });
+
     super.initState();
   }
 
@@ -52,7 +64,11 @@ class _IndexPageState extends State<IndexPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(244, 245, 245, 1.0),
-      body: currentPage,
+      // 混入保持页面状态 step 2
+      body: IndexedStack(
+        index: currentIndex,
+        children: tabBodies,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: currentIndex,

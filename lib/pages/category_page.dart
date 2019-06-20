@@ -7,7 +7,7 @@ class CategoryPage extends StatefulWidget {
   _CategoryPageState createState() => _CategoryPageState();
 }
 
-class _CategoryPageState extends State<CategoryPage> {
+class _CategoryPageState extends State<CategoryPage> with AutomaticKeepAliveClientMixin{
   String displayText = '暂无数据';
 
   @override
@@ -60,4 +60,7 @@ class _CategoryPageState extends State<CategoryPage> {
       return print(e);
     }
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
