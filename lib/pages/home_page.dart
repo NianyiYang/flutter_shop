@@ -34,13 +34,19 @@ class _HomePageState extends State<HomePage> {
             String phoneResource = data['data']['contact']['image'].toString();
             String phoneNumber = data['data']['contact']['number'].toString();
 
-            return Column(
-              children: <Widget>[
-                SwiperDiy(swiperList: swiperDataList),
-                TopNavigator(navList: navDataList),
-                AdBanner(adResource: adResource),
-                Phone(phoneResource: phoneResource, phoneNumber: phoneNumber)
-              ],
+            List<Map> recommendList =
+                (data['data']['recommend'] as List).cast();
+
+            return SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  SwiperDiy(swiperList: swiperDataList),
+                  TopNavigator(navList: navDataList),
+                  AdBanner(adResource: adResource),
+                  Phone(phoneResource: phoneResource, phoneNumber: phoneNumber),
+                  Recommend(recommendList: recommendList)
+                ],
+              ),
             );
           } else {
             return Center(
@@ -68,7 +74,7 @@ class SwiperDiy extends StatelessWidget {
     print('设备像素密度:${ScreenUtil.pixelRatio}');
 
     return Container(
-      height: ScreenUtil().setHeight(333),
+      height: ScreenUtil().setHeight(250),
       width: ScreenUtil().setWidth(750),
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
@@ -97,7 +103,7 @@ class TopNavigator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black12,
-      height: ScreenUtil().setHeight(320),
+      height: ScreenUtil().setHeight(260),
       padding: EdgeInsets.all(3.0),
       child: GridView.count(
           crossAxisCount: 5,
@@ -139,7 +145,7 @@ class AdBanner extends StatelessWidget {
     print('广告组件');
     return Container(
       width: ScreenUtil().setWidth(750),
-      height: ScreenUtil().setHeight(120),
+      height: ScreenUtil().setHeight(100),
       child: Image.network(adResource, fit: BoxFit.fill),
     );
   }
@@ -164,10 +170,93 @@ class Phone extends StatelessWidget {
 
   void _launchUrl() async {
     String url = 'tel:' + phoneNumber;
-    if(await canLaunch(url)) {
+    if (await canLaunch(url)) {
       await launch(url);
     } else {
       throw 'Could not launch $url';
     }
+  }
+}
+
+/// 商品推荐
+class Recommend extends StatelessWidget {
+  final List recommendList;
+
+  Recommend({Key key, this.recommendList}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: ScreenUtil().setHeight(380),
+      margin: EdgeInsets.only(top: 10.0),
+      child: Column(
+        children: <Widget>[
+          _titleWidget(),
+          _recommendList(),
+        ],
+      ),
+    );
+  }
+
+  /// 标题
+  Widget _titleWidget() {
+    return Container(
+      alignment: Alignment.centerLeft,
+      padding: EdgeInsets.fromLTRB(10.0, 2.0, 0, 5.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(bottom: BorderSide(width: 0.5, color: Colors.black12)),
+      ),
+      child: Text(
+        '商品推荐',
+        style: TextStyle(color: Colors.pink),
+      ),
+    );
+  }
+
+  // 列表项
+  Widget _item(index) {
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        height: ScreenUtil().setHeight(330),
+        width: ScreenUtil().setWidth(250),
+        padding: EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border:
+                Border(left: BorderSide(color: Colors.black12, width: 0.5))),
+        child: Column(
+          children: <Widget>[
+            Image.network(recommendList[index]['image']),
+            Text(
+              '￥${recommendList[index]['mallPrice']}',
+            ),
+            Text(
+              '￥${recommendList[index]['price']}',
+              style: TextStyle(
+                decoration: TextDecoration.lineThrough,
+                color: Colors.grey,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// 横向列表
+  Widget _recommendList() {
+    return Container(
+      height: ScreenUtil().setHeight(330),
+      child: ListView.builder(
+        itemBuilder: (context, index) {
+          // 返回 Item 项
+          return _item(index);
+        },
+        itemCount: recommendList.length,
+        scrollDirection: Axis.horizontal,
+      ),
+    );
   }
 }

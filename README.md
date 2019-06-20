@@ -2,18 +2,19 @@
 
 移动电商实战
 
-## Getting Started
+## 笔记
 
-This project is a starting point for a Flutter application.
+AutomaticKeepAliveClientMixin 混入 保持页面状态
 
-A few resources to get you started if this is your first Flutter project:
+不过使用使用这个属性是有几个先决条件的：
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
+- 使用的页面必须是StatefulWidget,如果是StatelessWidget是没办法办法使用的。
+- 其实只有两个前置组件才能保持页面状态：PageView和IndexedStack。
+- 重写wantKeepAlive方法，如果不重写也是实现不了的。
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+## 优点
+
+我们只需要Dart这一种语言，就可以编写页面和前台的业务逻辑。不再像使用前端技术时，要会js、html、css还要会框架
 
 ## 坑点
 
