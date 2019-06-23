@@ -31,10 +31,10 @@ class _HomePageState extends State<HomePage>
 
             List<Map> navDataList = (data['data']['category'] as List).cast();
 
-            String adResource = data['data']['adResource'].toString();
+            String adResource = data['data']['advertesPicture']['PICTURE_ADDRESS'].toString();
 
-            String phoneResource = data['data']['contact']['image'].toString();
-            String phoneNumber = data['data']['contact']['number'].toString();
+            String phoneResource = data['data']['shopInfo']['leaderImage'].toString();
+            String phoneNumber = data['data']['shopInfo']['leaderPhone'].toString();
 
             List<Map> recommendList =
                 (data['data']['recommend'] as List).cast();
@@ -80,7 +80,7 @@ class SwiperDiy extends StatelessWidget {
     print('设备像素密度:${ScreenUtil.pixelRatio}');
 
     return Container(
-      height: ScreenUtil().setHeight(250),
+      height: ScreenUtil().setHeight(333),
       width: ScreenUtil().setWidth(750),
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
@@ -107,9 +107,14 @@ class TopNavigator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    if(navList.length>10){
+      navList.removeRange(10, navList.length);
+    }
+
     return Container(
-      color: Colors.black12,
-      height: ScreenUtil().setHeight(260),
+      color: Colors.white,
+      height: ScreenUtil().setHeight(320),
       padding: EdgeInsets.all(3.0),
       child: GridView.count(
           crossAxisCount: 5,
@@ -129,11 +134,11 @@ class TopNavigator extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Image.network(
-            item['icon'],
+            item['image'],
             width: ScreenUtil().setWidth(95),
           ),
 //          Icon(CupertinoIcons.video_camera_solid),
-          Text(item['name'])
+          Text(item['mallCategoryName'])
         ],
       ),
     );
@@ -150,9 +155,9 @@ class AdBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     print('广告组件');
     return Container(
-      width: ScreenUtil().setWidth(750),
-      height: ScreenUtil().setHeight(100),
-      child: Image.network(adResource, fit: BoxFit.fill),
+      margin: EdgeInsets.only(top:5.0),
+      color: Colors.white,
+      child: Image.network(adResource),
     );
   }
 }
@@ -254,7 +259,7 @@ class Recommend extends StatelessWidget {
   /// 横向列表
   Widget _recommendList() {
     return Container(
-      height: ScreenUtil().setHeight(330),
+      height: ScreenUtil().setHeight(380),
       child: ListView.builder(
         itemBuilder: (context, index) {
           // 返回 Item 项
