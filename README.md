@@ -12,6 +12,8 @@ AutomaticKeepAliveClientMixin 混入 保持页面状态
 - 其实只有两个前置组件才能保持页面状态：PageView和IndexedStack。
 - 重写wantKeepAlive方法，如果不重写也是实现不了的。
 
+
+
 ## 优点
 
 我们只需要Dart这一种语言，就可以编写页面和前台的业务逻辑。不再像使用前端技术时，要会js、html、css还要会框架
