@@ -4,6 +4,7 @@ import 'package:flutter_shop/service/service_method.dart';
 
 import 'home/ad_banner.dart';
 import 'home/floor.dart';
+import 'home/hot_goods.dart';
 import 'home/phone_area.dart';
 import 'home/recommend.dart';
 import 'home/swiper_diy.dart';
@@ -67,6 +68,7 @@ class _HomePageState extends State<HomePage>
                   Floor(imageUrl: floor1Title,floorItemList: floor1),
                   Floor(imageUrl: floor2Title,floorItemList: floor2),
                   Floor(imageUrl: floor3Title,floorItemList: floor3),
+                  HotGoods(),
                 ],
               ),
             );

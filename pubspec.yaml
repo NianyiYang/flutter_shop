@@ -36,6 +36,9 @@ dependencies:
   # 控制Action的组件
   url_launcher: ^5.0.1
 
+  # 刷新组件
+  flutter_easyrefresh: ^1.2.7
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
