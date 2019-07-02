@@ -1,66 +1,103 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/config/http_headers.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_shop/model/category.dart';
+import 'package:flutter_shop/service/service_method.dart';
 
 class CategoryPage extends StatefulWidget {
   @override
   _CategoryPageState createState() => _CategoryPageState();
 }
 
-class _CategoryPageState extends State<CategoryPage> with AutomaticKeepAliveClientMixin{
+class _CategoryPageState extends State<CategoryPage>
+    with AutomaticKeepAliveClientMixin {
   String displayText = '暂无数据';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('请求远程数据'),
+        title: Text('分类'),
       ),
       body: Center(
-        child: Column(
-          children: <Widget>[
-            RaisedButton(
-              onPressed: _chooseAction,
-              child: Text('选择完毕'),
+        child: LeftCategoryNav(),
+      ),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+/// 分类左侧导航
+class LeftCategoryNav extends StatefulWidget {
+  @override
+  _LeftCategoryNavState createState() => _LeftCategoryNavState();
+}
+
+class _LeftCategoryNavState extends State<LeftCategoryNav> {
+  List<Data> list = [];
+
+
+  @override
+  void initState() {
+    super.initState();
+    _getCategory();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: ScreenUtil().setWidth(180),
+      decoration: BoxDecoration(
+        border: Border(
+          right: BorderSide(
+            width: 1,
+            color: Colors.black12,
+          ),
+        ),
+      ),
+      child: ListView.builder(
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          return _leftInkWell(index);
+        },
+      ),
+    );
+  }
+
+  Widget _leftInkWell(int index) {
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        height: ScreenUtil().setHeight(100),
+        padding: EdgeInsets.only(left: 10.0, top: 20.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            bottom: BorderSide(
+              width: 1,
+              color: Colors.black12,
             ),
-            Text(
-              displayText,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-            ),
-          ],
+          ),
+        ),
+        child: Text(
+          list[index].mallCategoryName,
+          style: TextStyle(fontSize: ScreenUtil().setSp(28)),
         ),
       ),
     );
   }
 
   /// 处理网络请求
-  void _chooseAction() {
-    Future future = mockHttp();
+  void _getCategory() async {
+    await request('getCategory').then((value) {
+      var data = value;
+      print(data);
+      CategoryModel categoryModel = CategoryModel.fromJson(data);
 
-    future.then((val) {
       setState(() {
-        displayText = val['data'].toString();
+        list = categoryModel.data;
       });
     });
   }
-
-  /// 网络请求
-  Future mockHttp() async {
-    try {
-      Dio dio = Dio();
-      dio.options.headers = httpHeaders;
-
-      Response response = await dio.get(
-        "https://time.geekbang.org/serv/v1/column/newAll",
-      );
-
-      return response.data;
-    } catch (e) {
-      return print(e);
-    }
-  }
-
-  @override
-  bool get wantKeepAlive => true;
 }

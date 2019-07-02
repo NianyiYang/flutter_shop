@@ -5,4 +5,6 @@ const servicePath = {
   'homePageContent': serviceUrl + '/homePageContent',
   // 火爆专区
   'homePageBelowContent': serviceUrl + '/homePageBelowContent',
+  // 分类页面
+  'getCategory': serviceUrl + '/getCategory',
 };

@@ -12,7 +12,12 @@ AutomaticKeepAliveClientMixin 混入 保持页面状态
 - 其实只有两个前置组件才能保持页面状态：PageView和IndexedStack。
 - 重写wantKeepAlive方法，如果不重写也是实现不了的。
 
+为接口建立model层
 
+使用工厂构造函数：当实现构造函数但是不想每次都创建该类的一个实例的时候使用
+
+`dynamic` 关键字 
+在Dart中，dynamic和Object可表示所有类型, 这两者区别是使用dynamic可以处理更复杂的不确定类型，例如超出了Dart的类型系统，或者值来自互操作或者在静态类型系统范围之外的情况。
 
 ## 优点
 
