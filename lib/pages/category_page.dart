@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_shop/model/category.dart';
+import 'package:flutter_shop/model/category_goods_list.dart';
+import 'package:flutter_shop/provide/child_category.dart';
 import 'package:flutter_shop/service/service_method.dart';
+import 'package:provide/provide.dart';
+
+import 'category/right_nav.dart';
 
 class CategoryPage extends StatefulWidget {
   @override
@@ -18,8 +23,17 @@ class _CategoryPageState extends State<CategoryPage>
       appBar: AppBar(
         title: Text('分类'),
       ),
-      body: Center(
-        child: LeftCategoryNav(),
+      body: Container(
+        child: Row(
+          children: <Widget>[
+            LeftCategoryNav(),
+            Column(
+              children: <Widget>[
+                RightCategoryNav(),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -36,7 +50,7 @@ class LeftCategoryNav extends StatefulWidget {
 
 class _LeftCategoryNavState extends State<LeftCategoryNav> {
   List<Data> list = [];
-
+  var listIndex = 0;
 
   @override
   void initState() {
@@ -66,13 +80,25 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
   }
 
   Widget _leftInkWell(int index) {
+    // 点击状态
+    bool isClicked = false;
+    isClicked = (index == listIndex) ? true : false;
+
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        // 修改点击状态
+        setState(() {
+          listIndex = index;
+        });
+        // 修改状态
+        var childList = list[index].bxMallSubDto;
+        Provide.value<ChildCategory>(context).getChildCategory(childList);
+      },
       child: Container(
         height: ScreenUtil().setHeight(100),
         padding: EdgeInsets.only(left: 10.0, top: 20.0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isClicked ? Color.fromRGBO(236, 238, 239, 1.0) : Colors.white,
           border: Border(
             bottom: BorderSide(
               width: 1,
@@ -98,6 +124,45 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
       setState(() {
         list = categoryModel.data;
       });
+
+      // 初始化小磊数据
+      Provide.value<ChildCategory>(context)
+          .getChildCategory(list[0].bxMallSubDto);
     });
   }
 }
+
+/// 商品列表页
+class CategoryGoodsList extends StatefulWidget {
+  @override
+  _CategoryGoodsListState createState() => _CategoryGoodsListState();
+}
+
+class _CategoryGoodsListState extends State<CategoryGoodsList> {
+
+  @override
+  void initState() {
+    super.initState();
+    _getGoodList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text('商品列表'),
+    );
+  }
+
+  void _getGoodList() async {
+    await request('getMallGoods').then((value) {
+      var data = value;
+      print(data);
+      CategoryGoodsListModel model = CategoryGoodsListModel.fromJson(data);
+
+      setState(() {
+        list = model.data;
+      });
+    });
+  }
+}
+
