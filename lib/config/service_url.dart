@@ -7,4 +7,6 @@ const servicePath = {
   'homePageBelowContent': serviceUrl + '/homePageBelowContent',
   // 分类页面
   'getCategory': serviceUrl + '/getCategory',
+  // 商品分类
+  'getMallGoods': serviceUrl + '/getMallGoods',
 };

@@ -27,10 +27,13 @@ class CategoryGoodsListModel {
   }
 }
 
+/// TODO 这个地方有坑，远端会把1.0自动转换为1，所以导致类型解析错误
+/// 因为 flutter 里边 int 和 double 之间不能直接转换
+/// 解决方案就是 使用 num 类型
 class Data {
   String image;
-  double oriPrice;
-  double presentPrice;
+  num oriPrice;
+  num presentPrice;
   String goodsName;
   String goodsId;
 
