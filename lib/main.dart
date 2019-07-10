@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/pages/index_page.dart';
+import 'package:flutter_shop/provide/category_goods_list.dart';
 import 'package:flutter_shop/provide/child_category.dart';
 import 'package:provide/provide.dart';
 
@@ -13,7 +14,8 @@ void main() {
   var childCategory = ChildCategory();
   providers
     ..provide(Provider<Counter>.value(counter))
-    ..provide(Provider.function((context) => childCategory));
+    ..provide(Provider.function((context) => childCategory))
+    ..provide(Provider.function((context) => CategoryGoodsListProvide()));
 
   // step 3 封装了InheritWidget的ProviderNode
   runApp(ProviderNode(

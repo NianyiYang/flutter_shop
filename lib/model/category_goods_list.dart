@@ -1,7 +1,7 @@
 class CategoryGoodsListModel {
   String code;
   String message;
-  List<Data> data;
+  List<CategoryListData> data;
 
   CategoryGoodsListModel({this.code, this.message, this.data});
 
@@ -9,9 +9,9 @@ class CategoryGoodsListModel {
     code = json['code'];
     message = json['message'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = new List<CategoryListData>();
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data.add(new CategoryListData.fromJson(v));
       });
     }
   }
@@ -30,21 +30,21 @@ class CategoryGoodsListModel {
 /// TODO 这个地方有坑，远端会把1.0自动转换为1，所以导致类型解析错误
 /// 因为 flutter 里边 int 和 double 之间不能直接转换
 /// 解决方案就是 使用 num 类型
-class Data {
+class CategoryListData {
   String image;
   num oriPrice;
   num presentPrice;
   String goodsName;
   String goodsId;
 
-  Data(
+  CategoryListData(
       {this.image,
       this.oriPrice,
       this.presentPrice,
       this.goodsName,
       this.goodsId});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  CategoryListData.fromJson(Map<String, dynamic> json) {
     image = json['image'];
     oriPrice = json['oriPrice'];
     presentPrice = json['presentPrice'];
