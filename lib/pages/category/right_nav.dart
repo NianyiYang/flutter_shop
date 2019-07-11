@@ -11,7 +11,6 @@ class RightCategoryNav extends StatefulWidget {
 }
 
 class _RightCategoryNavState extends State<RightCategoryNav> {
-
   @override
   Widget build(BuildContext context) {
     return Provide<ChildCategory>(builder: (context, child, childCategory) {
@@ -31,21 +30,34 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
           scrollDirection: Axis.horizontal,
           itemCount: childCategory.childCategoryList.length,
           itemBuilder: (context, index) {
-            return _rightInkWell(childCategory.childCategoryList[index]);
+            return _rightInkWell(childCategory.childIndex,
+                childCategory.childCategoryList[index]);
           },
         ),
       );
     });
   }
 
-  Widget _rightInkWell(BxMallSubDto item) => InkWell(
-        onTap: () {},
-        child: Container(
-          padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
-          child: Text(
-            item.mallSubName,
-            style: TextStyle(fontSize: ScreenUtil().setSp(28)),
+  Widget _rightInkWell(int index, BxMallSubDto item) {
+    bool isCheck = false;
+    isCheck = (index == Provide.value<ChildCategory>(context).childIndex)
+        ? true
+        : false;
+
+    return InkWell(
+      onTap: () {
+        Provide.value<ChildCategory>(context).changeChildIndex(index);
+      },
+      child: Container(
+        padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
+        child: Text(
+          item.mallSubName,
+          style: TextStyle(
+            color: isCheck ? Colors.pink : Colors.black,
+            fontSize: ScreenUtil().setSp(28),
           ),
         ),
-      );
+      ),
+    );
+  }
 }

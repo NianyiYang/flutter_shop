@@ -158,15 +158,17 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
   Widget build(BuildContext context) {
     return Provide<CategoryGoodsListProvide>(
       builder: (context, child, data) {
-        return Container(
+        return Expanded(
+          child: Container(
             width: ScreenUtil().setWidth(570),
-            height: ScreenUtil().setHeight(1000),
             child: ListView.builder(
               itemCount: data.goodsList.length,
               itemBuilder: (context, index) {
                 return _listWidget(data.goodsList, index);
               },
-            ));
+            ),
+          ),
+        );
       },
     );
   }
