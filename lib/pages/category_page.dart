@@ -5,6 +5,7 @@ import 'package:flutter_shop/model/category.dart';
 import 'package:flutter_shop/model/category_goods_list.dart';
 import 'package:flutter_shop/provide/child_category.dart';
 import 'package:flutter_shop/service/service_method.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provide/provide.dart';
 
 import 'category/right_nav.dart';
@@ -222,6 +223,17 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
 //
 //    });
     Provide.value<ChildCategory>(context).changeNoMore('没有更多了');
+
+    // TODO toast test
+    Fluttertoast.showToast(
+      msg: "已经到底了",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.pink,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
 
   /// 商品图片
