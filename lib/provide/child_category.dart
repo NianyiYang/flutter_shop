@@ -52,8 +52,12 @@ class ChildCategory extends ChangeNotifier {
   // 列表页数
   int _page = 1;
 
+  int get page => _page;
+
   // 显示更多的标识
   String _noMoreText = '';
+
+  String get noMoreText => _noMoreText;
 
   // 每次加载完后+1
   addPage() {

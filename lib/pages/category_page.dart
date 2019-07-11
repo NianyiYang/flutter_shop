@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_shop/model/category.dart';
 import 'package:flutter_shop/model/category_goods_list.dart';
@@ -154,23 +155,73 @@ class CategoryGoodsList extends StatefulWidget {
 }
 
 class _CategoryGoodsListState extends State<CategoryGoodsList> {
+  var scrollController = new ScrollController();
+
+  // refresh footer
+  GlobalKey<RefreshFooterState> _footerKey =
+      new GlobalKey<RefreshFooterState>();
+
   @override
   Widget build(BuildContext context) {
     return Provide<CategoryGoodsListProvide>(
       builder: (context, child, data) {
+        // TODO 每次切换大类的时候返回第一项
+        try {
+          if (Provide.value<ChildCategory>(context).page == 1) {
+            scrollController.jumpTo(0.0);
+          }
+        } catch (e) {
+          print('进入页面第一次初始化：${e}');
+        }
+
         return Expanded(
           child: Container(
             width: ScreenUtil().setWidth(570),
-            child: ListView.builder(
-              itemCount: data.goodsList.length,
-              itemBuilder: (context, index) {
-                return _listWidget(data.goodsList, index);
+            child: EasyRefresh(
+              refreshFooter: ClassicsFooter(
+                key: _footerKey,
+                bgColor: Colors.white,
+                textColor: Colors.pink,
+                moreInfoColor: Colors.pink,
+                showMore: true,
+                noMoreText: Provide.value<ChildCategory>(context).noMoreText,
+                moreInfo: '加载中',
+                loadReadyText: '上拉加载',
+              ),
+              child: ListView.builder(
+                controller: scrollController,
+                itemCount: data.goodsList.length,
+                itemBuilder: (context, index) {
+                  return _listWidget(data.goodsList, index);
+                },
+              ),
+              loadMore: () async {
+                _getMore();
               },
             ),
           ),
         );
       },
     );
+  }
+
+  // TODO 模拟接口 没法分页
+  void _getMore() {
+    Provide.value<ChildCategory>(context).addPage();
+
+//    var data={
+//      'categoryId':Provide.value<ChildCategory>(context).categoryId,
+//      'categorySubId':Provide.value<ChildCategory>(context).subId,
+//      'page':Provide.value<ChildCategory>(context).page
+//    };
+
+//    request('getMallGoods').then((value) {
+//      var data = value;
+//      CategoryGoodsListModel model = CategoryGoodsListModel.fromJson(data);
+//      Provide.value<CategoryGoodsListProvide>(context).addGoodsList(goodsList.data);
+//
+//    });
+    Provide.value<ChildCategory>(context).changeNoMore('没有更多了');
   }
 
   /// 商品图片
