@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_shop/routers/application.dart';
 import 'package:flutter_shop/service/service_method.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 
@@ -25,7 +26,8 @@ class _HomePageState extends State<HomePage>
   List<Map> hotGoodsList = [];
 
   // refresh footer
-  GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
+  GlobalKey<RefreshFooterState> _footerKey =
+      new GlobalKey<RefreshFooterState>();
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +57,9 @@ class _HomePageState extends State<HomePage>
                 (data['data']['recommend'] as List).cast();
 
             //楼层的标题图片
-            String floor1Title =data['data']['floor1Pic']['PICTURE_ADDRESS'];
-            String floor2Title =data['data']['floor2Pic']['PICTURE_ADDRESS'];
-            String floor3Title =data['data']['floor3Pic']['PICTURE_ADDRESS'];
+            String floor1Title = data['data']['floor1Pic']['PICTURE_ADDRESS'];
+            String floor2Title = data['data']['floor2Pic']['PICTURE_ADDRESS'];
+            String floor3Title = data['data']['floor3Pic']['PICTURE_ADDRESS'];
 
             //楼层商品和图片
             List<Map> floor1 = (data['data']['floor1'] as List).cast();
@@ -82,9 +84,9 @@ class _HomePageState extends State<HomePage>
                   AdBanner(adResource: adResource),
                   Phone(phoneResource: phoneResource, phoneNumber: phoneNumber),
                   Recommend(recommendList: recommendList),
-                  Floor(imageUrl: floor1Title,floorItemList: floor1),
-                  Floor(imageUrl: floor2Title,floorItemList: floor2),
-                  Floor(imageUrl: floor3Title,floorItemList: floor3),
+                  Floor(imageUrl: floor1Title, floorItemList: floor1),
+                  Floor(imageUrl: floor2Title, floorItemList: floor2),
+                  Floor(imageUrl: floor3Title, floorItemList: floor3),
                   _hotGoods(),
                 ],
               ),
@@ -123,7 +125,7 @@ class _HomePageState extends State<HomePage>
     // TODO 模拟接口 没有页面参数...
 //    var formPage = {'page': page};
     print(page);
-    request('homePageBelowContent'/*, formData: formPage*/).then((value) {
+    request('homePageBelowContent' /*, formData: formPage*/).then((value) {
       var data = value;
       List<Map> newGoodsList = (data['data'] as List).cast();
       setState(() {
@@ -158,7 +160,8 @@ class _HomePageState extends State<HomePage>
       List<Widget> listWidget = hotGoodsList.map((val) {
         return InkWell(
             onTap: () {
-              print('点击了火爆商品');
+              Application.router
+                  .navigateTo(context, "/detail?id=${val['goodsId']}");
             },
             child: Container(
               width: ScreenUtil().setWidth(372),
