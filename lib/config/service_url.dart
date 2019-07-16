@@ -9,4 +9,6 @@ const servicePath = {
   'getCategory': serviceUrl + '/getCategory',
   // 商品分类
   'getMallGoods': serviceUrl + '/getMallGoods',
+  // 商品详情
+  'getGoodDetailById': serviceUrl + '/getGoodDetailById',
 };

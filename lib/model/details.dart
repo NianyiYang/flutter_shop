@@ -61,7 +61,7 @@ class Data {
 
 class GoodInfo {
   String image5;
-  int amount;
+  num amount;
   String image3;
   String image4;
   String goodsId;
@@ -69,10 +69,10 @@ class GoodInfo {
   String image1;
   String image2;
   String goodsSerialNumber;
-  int oriPrice;
+  num oriPrice;
   double presentPrice;
   String comPic;
-  int state;
+  num state;
   String shopId;
   String goodsName;
   String goodsDetail;

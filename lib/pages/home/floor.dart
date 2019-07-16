@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_shop/routers/application.dart';
 
 class Floor extends StatelessWidget {
   final String imageUrl;
@@ -44,8 +45,11 @@ class FloorContent extends StatelessWidget {
 
   FloorContent({Key key, this.floorItemList}) : super(key: key);
 
+  BuildContext context;
+
   @override
   Widget build(BuildContext context) {
+    this.context = context;
     return Container(
       child: Column(
         children: <Widget>[
@@ -62,7 +66,7 @@ class FloorContent extends StatelessWidget {
       width: ScreenUtil().setWidth(375),
       child: InkWell(
         onTap: () {
-          print('点击楼层商品');
+          Application.router.navigateTo(context, "/detail?id=${goods['goodsId']}");
         },
         child: Image.network(goods['image']),
       ),
