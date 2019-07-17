@@ -18,4 +18,23 @@ class DetailsInfoProvide with ChangeNotifier {
       notifyListeners();
     });
   }
+
+  bool _isLeft = true;
+  bool get isLeft => _isLeft;
+
+  bool _isRight = false;
+  bool get isRight => _isRight;
+
+  // 改变按钮状态
+  void changeLeftAndRight(String changeState) {
+    if(changeState == 'left') {
+      _isLeft = true;
+      _isRight = false;
+    } else {
+      _isLeft = false;
+      _isRight = true;
+    }
+
+    notifyListeners();
+  }
 }
