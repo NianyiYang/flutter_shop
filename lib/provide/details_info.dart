@@ -8,10 +8,10 @@ class DetailsInfoProvide with ChangeNotifier {
   DetailsModel get goodsInfo => _goodsInfo;
 
   // 请求商品信息
-  void getGoodsInfo(String id) {
+  void getGoodsInfo(String id) async {
     var formData = {'goodId': id};
 
-    request('getGoodDetailById').then((val){
+    await request('getGoodDetailById').then((val) {
       var responseData = val;
       _goodsInfo = DetailsModel.fromJson(responseData);
 
@@ -20,14 +20,16 @@ class DetailsInfoProvide with ChangeNotifier {
   }
 
   bool _isLeft = true;
+
   bool get isLeft => _isLeft;
 
   bool _isRight = false;
+
   bool get isRight => _isRight;
 
   // 改变按钮状态
   void changeLeftAndRight(String changeState) {
-    if(changeState == 'left') {
+    if (changeState == 'left') {
       _isLeft = true;
       _isRight = false;
     } else {
