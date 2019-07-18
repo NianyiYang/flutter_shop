@@ -4,6 +4,7 @@ import 'package:provide/provide.dart';
 
 import 'details_page/detail_explain.dart';
 import 'details_page/detail_web.dart';
+import 'details_page/details_bottom.dart';
 import 'details_page/details_tabbar.dart';
 import 'details_page/details_top_area.dart';
 
@@ -29,15 +30,23 @@ class DetailsPage extends StatelessWidget {
         future: _getBackInfo(context),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Container(
-              child: ListView(
-                children: <Widget>[
-                  DetailsTopArea(),
-                  DetailsExplain(),
-                  DetailsTabBar(),
-                  DetailsWeb(),
-                ],
-              ),
+            // 层叠组件
+            return Stack(
+              children: <Widget>[
+                ListView(
+                  children: <Widget>[
+                    DetailsTopArea(),
+                    DetailsExplain(),
+                    DetailsTabBar(),
+                    DetailsWeb(),
+                  ],
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  child: DetailsBottom(),
+                ),
+              ],
             );
           } else {
             return Text('加载中...');
