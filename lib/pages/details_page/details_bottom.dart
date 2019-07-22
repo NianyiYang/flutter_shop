@@ -28,19 +28,19 @@ class DetailsBottom extends StatelessWidget {
                 ),
               ),
               InkWell(
-                // TODO 这里可能有点问题
-                onTap: () async {
+                onTap: () {
                   var goodsInfo = Provide.value<DetailsInfoProvide>(context)
                       .goodsInfo
                       .data
                       .goodInfo;
+
                   var goodsId = goodsInfo.goodsId;
                   var goodsName = goodsInfo.goodsName;
                   var count = 1;
                   var price = goodsInfo.presentPrice;
                   var images = goodsInfo.image1;
 
-                  await Provide.value<CartProvide>(context)
+                  Provide.value<CartProvide>(context)
                       .save(goodsId, goodsName, count, price, images);
                 },
                 child: Container(
