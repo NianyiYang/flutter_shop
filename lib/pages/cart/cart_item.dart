@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_shop/model/cart_info.dart';
 
+import 'cart_count.dart';
+
 /// 购物车子项
 class CartItem extends StatelessWidget {
   final CartInfoModel item;
@@ -35,14 +37,17 @@ class CartItem extends StatelessWidget {
   }
 
   /// 多选按钮
-  Widget _cartCheckButton(item) {
+  Widget _cartCheckButton(CartInfoModel item) {
     return Container(
-      child: Checkbox(value: true, onChanged: (bool isChecked) {}),
+      child: Checkbox(
+        value: item.isCheck,
+        onChanged: (bool isChecked) {},
+      ),
     );
   }
 
   /// 商品图片
-  Widget _cartImage(item) {
+  Widget _cartImage(CartInfoModel item) {
     return Container(
       width: ScreenUtil().setWidth(150),
       padding: EdgeInsets.all(3.0),
@@ -53,19 +58,22 @@ class CartItem extends StatelessWidget {
   }
 
   /// 商品名称
-  Widget _cartGoodsName(item) {
+  Widget _cartGoodsName(CartInfoModel item) {
     return Container(
       width: ScreenUtil().setWidth(300),
       padding: EdgeInsets.all(10),
       alignment: Alignment.topLeft,
       child: Column(
-        children: <Widget>[Text(item.goodsName)],
+        children: <Widget>[
+          Text(item.goodsName),
+          CartCount(),
+        ],
       ),
     );
   }
 
   /// 商品价格
-  Widget _cartPrice(item) {
+  Widget _cartPrice(CartInfoModel item) {
     return Container(
       width: ScreenUtil().setWidth(150),
       alignment: Alignment.centerRight,
