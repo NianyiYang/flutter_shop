@@ -1,17 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_shop/pages/cart_page.dart';
 import 'package:flutter_shop/pages/category_page.dart';
 import 'package:flutter_shop/pages/home_page.dart';
 import 'package:flutter_shop/pages/member_page.dart';
+import 'package:flutter_shop/provide/current_index.dart';
+import 'package:provide/provide.dart';
 
-class IndexPage extends StatefulWidget {
-  @override
-  _IndexPageState createState() => _IndexPageState();
-}
-
-class _IndexPageState extends State<IndexPage> {
-  PageController _pageController;
+class IndexPage extends StatelessWidget {
 
   final List<Widget> tabBodies = [
     HomePage(),
@@ -39,47 +36,28 @@ class _IndexPageState extends State<IndexPage> {
     ),
   ];
 
-  /// 当前页面
-  int currentIndex = 0;
-  var currentPage;
-
-  @override
-  void initState() {
-    currentPage = tabBodies[currentIndex];
-
-    // 混入保持页面状态 step 1
-    _pageController = PageController()
-      ..addListener(() {
-        if (currentPage != _pageController.page.round()) {
-          setState(() {
-            currentPage = _pageController.page.round();
-          });
-        }
-      });
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromRGBO(244, 245, 245, 1.0),
-      // 混入保持页面状态 step 2
-      body: IndexedStack(
-        index: currentIndex,
-        children: tabBodies,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: currentIndex,
-        items: bottomTabs,
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-            currentPage = tabBodies[currentIndex];
-          });
-        },
-      ),
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
+
+    return Provide<CurrentIndexProvider>(
+      builder: (context, child, value) {
+        int currentIndex =
+            Provide.value<CurrentIndexProvider>(context).currentIndex;
+
+        return Scaffold(
+          backgroundColor: Color.fromRGBO(244, 245, 245, 1.0),
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            currentIndex: currentIndex,
+            items: bottomTabs,
+            onTap: (index) {
+              Provide.value<CurrentIndexProvider>(context).changeIndex(index);
+            },
+          ),
+          body: IndexedStack(index: currentIndex, children: tabBodies),
+        );
+      },
     );
   }
 }
