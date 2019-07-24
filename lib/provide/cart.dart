@@ -44,6 +44,9 @@ class CartProvide with ChangeNotifier {
       };
       tempList.add(goods);
       _cartList.add(CartInfoModel.fromJson(goods));
+
+      allPrice += (count * price);
+      allGoodsCount += count;
     }
 
     // 字符串 encode
