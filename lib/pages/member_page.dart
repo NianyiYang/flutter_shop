@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_shop/provide/counter.dart';
-import 'package:provide/provide.dart';
 
 class MemberPage extends StatelessWidget {
   @override
@@ -127,15 +125,11 @@ class MemberPage extends StatelessWidget {
     );
   }
 
-  Widget _myListTile(String title){
-
+  Widget _myListTile(String title) {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
-          border: Border(
-              bottom:BorderSide(width: 1,color:Colors.black12)
-          )
-      ),
+          border: Border(bottom: BorderSide(width: 1, color: Colors.black12))),
       child: ListTile(
         leading: Icon(Icons.blur_circular),
         title: Text(title),
@@ -144,7 +138,7 @@ class MemberPage extends StatelessWidget {
     );
   }
 
-  Widget _actionList(){
+  Widget _actionList() {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Column(
